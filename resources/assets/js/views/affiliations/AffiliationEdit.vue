@@ -1,5 +1,7 @@
 <template>
-   <affiliation_form :items="items" :formname="formname" :errors="errors" @saveData="saveForm"></affiliation_form>
+ <affiliation_form :items="items" :errors="errors" @saveData="saveForm">
+     <b-alert show variant="info">Update Affiliation</b-alert>
+   </affiliation_form>
 </template>
 
 <script>
@@ -11,15 +13,15 @@ export default {
   
   data () {
     return {
-      
+
+     image:'',  
      items:{
        title: '',
         url: '',
-        logo: '',
+        img: '',
         body: ''
      },
-     path:'',
-     formname: 'Edit Affiliation',
+     
      errors: new Errors(),     
     }
   },
@@ -32,22 +34,24 @@ export default {
         let app = this;
         axios.get('/api/affiliations/' + this.$route.params.id + '/edit')
              .then(function(resp) { 
-                app.items = resp.data;                           
+                app.items = resp.data;                            
                 console.log(resp.data);                               
              })
              .catch(function(resp) {
                 console.log(resp);                
              });
-    },    
+    },   
 
-    saveForm() { 
-        var newAffiliation = this.items; 
-        axios.put('/api/affiliations/'+ this.$route.params.id, newAffiliation)
+    saveForm() {         
+        axios.put('/api/affiliations/'+ this.$route.params.id, this.items)
            .then(this.onSuccess)
            .catch(error => this.errors.record(error.response.data.errors));
         
-    }       
+    },    
 
+    hasField(field) { 
+        return (field === '');
+     }
   },
  
   mounted() {    

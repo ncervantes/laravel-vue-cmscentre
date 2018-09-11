@@ -1,7 +1,7 @@
 <template>
  
   <div>
-    <b-alert show variant="info">{{formname}}</b-alert>
+    <slot></slot>
     <b-form @submit.prevent="$emit('saveData')" @keydown = "errors.clear($event.target.name)">
       <b-form-group id="titleInputGroup"
                     label="Affiliation Name:"
@@ -23,10 +23,9 @@
         </b-form-input>
         <span class="help is-danger" v-if="hasField(items.url)" v-text="errors.get('url')"></span>
       </b-form-group>
-      <!-- Styled -->
-      <b-form-file v-model="filelogo" :state="Boolean(filelogo)" @change="$emit('changeFile', $event)" placeholder="Choose a file..."></b-form-file>
-      <br/>
-      <b-img v-if="$route.params.id" :src="'../images/affiliations/'+ $route.params.id + '.png'"/>
+      
+      <b-form-file v-model="image" :state="Boolean(image)" @change="changeFile" accept=".jpg, .png, .jpeg" placeholder="Choose a file..."></b-form-file>      
+      <b-img :src="image"/> 
       
       <b-form-group id="bodyInputGroup"
                     label="Description:"
@@ -51,11 +50,11 @@
 
 export default {
   
-  props: ["items", "formname", "errors"],
+  props: ["items", "errors"],
 
   data () {
     return {
-      filelogo: null,            
+      image: null,                             
     }
   },
 
@@ -64,9 +63,51 @@ export default {
         return (field === '');
      },
 
+     changeFile(e) {
+        console.log(e.target.files[0]);
+
+        var fileReader = new FileReader()
+
+        fileReader.readAsDataURL(e.target.files[0])
+
+        fileReader.onload = (e) => {
+            this.image = e.target.result
+            this.items.img = e.target.result
+        }
+        console.log(this.image);
+    },
+
+    getImage(name, type)
+    { 
+        var imagelogo = new Image();
+        imagelogo.src = name + type;
+        var vm = this;
+
+        imagelogo.onload = function()
+        {
+            vm.image = name + type;
+            vm.items.img = name  + type;
+        }
+        imagelogo.onerror = function()
+        {            
+            vm.image = "";
+            vm.items.img = "";
+        }
+    }
   },
 
-      
+  created() {
+    if(this.$route.params.id) {
+       var filename = "/images/affiliations/"+ this.$route.params.id;
+       this.getImage(filename, ".png");
+       if(!this.image) {
+          this.getImage(filename, ".jpg");
+       }
+       
+    }
+
+  }
+ 
 }   
   
 </script>

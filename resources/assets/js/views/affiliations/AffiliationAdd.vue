@@ -1,5 +1,7 @@
 <template>
-   <affiliation_form :items="items" :formname="formname" :errors="errors" @saveData="saveForm" @changeFile="changeFile"></affiliation_form>
+   <affiliation_form :items="items" :errors="errors" @saveData="saveForm">
+     <b-alert show variant="info">Create New Affiliation</b-alert>
+   </affiliation_form>
 </template>
 
 <script>
@@ -17,10 +19,9 @@ export default {
         title: '',
         url: '',        
         body: '',
-        image:''
-     },
+        img:''
+     },     
      
-     formname: 'Create New Affiliation',
      errors: new Errors(),        
     }
   },
@@ -29,26 +30,12 @@ export default {
 
  methods: {     
 
-    saveForm() { 
-        var newAffiliation = this.items; 
-        axios.post('/api/affiliations/', newAffiliation)
+    saveForm() {          
+        axios.post('/api/affiliations/', this.items)
            .then(this.onSuccess)
            .catch(error => this.errors.record(error.response.data.errors));
         
-    },
-
-    changeFile(e) {
-        console.log(e.target.files[0]);
-
-        var fileReader = new FileReader()
-
-        fileReader.readAsDataURL(e.target.files[0])
-
-        fileReader.onload = (e) => {
-            this.items.image = e.target.result
-        }
-        console.log(this.items);
-    }
+    },    
     
   },
 

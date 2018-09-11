@@ -41,7 +41,6 @@ class AffiliationController extends Controller
     public function store(Request $request)
     {
 
-
          $this->validate($request, [
              'title' =>'required',
              'url' => 'required',             
@@ -50,16 +49,16 @@ class AffiliationController extends Controller
 
          $affiliation = Affiliation::create(request(['title', 'url', 'body' ]));
 
-         $image = explode(',', $request->image);   
+         $image = explode(',', $request->img);   
 
          $decoded = base64_decode($image[1]);
 
-         if(str_contains($image[0], 'jpeg'))
+         if(str_contains($image[0], ['jpeg','jpg']))
             $extension = 'jpg';
          else 
              $extension = 'png';
 
-         $filename = $affiliation->id . '.'. $extension;
+         $filename = $affiliation->id . '.'. $extension;         
 
          $path = public_path().'/images/affiliations/'.$filename;
 
@@ -93,7 +92,7 @@ class AffiliationController extends Controller
 
         $affiliation = Affiliation::find($id);        
 
-        return response()->json(array($affiliation));
+        return response()->json($affiliation);
     }
 
     /**
@@ -110,12 +109,33 @@ class AffiliationController extends Controller
              'title' =>'required',
              'url' => 'required',             
              'body' => 'required'
-         ]);
-        
+         ]);   
+
+         if(str_contains($request->img, 'data')) {
+
+             $image = explode(',', $request->img);   
+
+             $decoded = base64_decode($image[1]);
+
+             if(str_contains($image[0], ['jpeg','jpg']))
+                $extension = 'jpg';
+             else 
+                 $extension = 'png';
+
+             $filename = $id . '.'. $extension;
+
+             $path = public_path().'/images/affiliations/';
+
+             if (file_exists($path.$id.'.jpg')) unlink($path.$id.'.jpg');
+             if (file_exists($path.$id.'.png')) unlink($path.$id.'.png');
+
+             file_put_contents($path.$filename, $decoded);
+        }
 
         $affiliation = Affiliation::find($id); 
 
-        $affiliation->update(request(['title', 'url', 'body' ])); 
+        $affiliation->update(request(['title', 'url', 'body' ]));
+              
 
        return ['message' => 'Project Updated'];
     }
@@ -134,5 +154,14 @@ class AffiliationController extends Controller
 
         return ['message' => 'Affiliation Deleted'];
 
+    }
+
+    public function getImageExtension($img)
+    {
+       if(str_contains($img, ['jpeg','jpg']))
+            $extension = 'jpg';
+         else 
+             $extension = 'png';
+       return $extension;  
     }
 }

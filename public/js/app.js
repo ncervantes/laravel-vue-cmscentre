@@ -38209,6 +38209,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -38223,10 +38225,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: '',
             url: '',
             body: '',
-            image: ''
+            img: ''
          },
 
-         formname: 'Create New Affiliation',
          errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
       };
    },
@@ -38238,24 +38239,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       saveForm: function saveForm() {
          var _this = this;
 
-         var newAffiliation = this.items;
-         axios.post('/api/affiliations/', newAffiliation).then(this.onSuccess).catch(function (error) {
+         axios.post('/api/affiliations/', this.items).then(this.onSuccess).catch(function (error) {
             return _this.errors.record(error.response.data.errors);
          });
-      },
-      changeFile: function changeFile(e) {
-         var _this2 = this;
-
-         console.log(e.target.files[0]);
-
-         var fileReader = new FileReader();
-
-         fileReader.readAsDataURL(e.target.files[0]);
-
-         fileReader.onload = function (e) {
-            _this2.items.image = e.target.result;
-         };
-         console.log(this.items);
       }
    },
 
@@ -38318,16 +38304,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-  props: ["items", "formname", "errors", "path"],
+  props: ["items", "errors"],
 
   data: function data() {
     return {
-      filelogo: null
+      image: null
     };
   },
 
@@ -38335,9 +38320,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     hasField: function hasField(field) {
       return field === '';
+    },
+    removeImage: function removeImage() {
+      this.items.image = "";
+    },
+    changeFile: function changeFile(e) {
+      var _this = this;
+
+      console.log(e.target.files[0]);
+
+      var fileReader = new FileReader();
+
+      fileReader.readAsDataURL(e.target.files[0]);
+
+      fileReader.onload = function (e) {
+        _this.image = e.target.result;
+        _this.items.img = e.target.result;
+      };
+      console.log(this.image);
+    },
+    getImage: function getImage(name, type) {
+      var imagelogo = new Image();
+      imagelogo.src = name + type;
+      var vm = this;
+
+      imagelogo.onload = function () {
+        vm.image = name + type;
+        vm.items.img = name + type;
+      };
+      imagelogo.onerror = function () {
+        vm.image = "";
+        vm.items.img = "";
+      };
+    }
+  },
+
+  created: function created() {
+    if (this.$route.params.id) {
+      var filename = "/images/affiliations/" + this.$route.params.id;
+      this.getImage(filename, ".png");
+      if (!this.image) {
+        this.getImage(filename, ".jpg");
+      }
     }
   }
-
 });
 
 /***/ }),
@@ -38351,9 +38377,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("b-alert", { attrs: { show: "", variant: "info" } }, [
-        _vm._v(_vm._s(_vm.formname))
-      ]),
+      _vm._t("default"),
       _vm._v(" "),
       _c(
         "b-form",
@@ -38441,32 +38465,21 @@ var render = function() {
           _vm._v(" "),
           _c("b-form-file", {
             attrs: {
-              state: Boolean(_vm.filelogo),
+              state: Boolean(_vm.image),
+              accept: ".jpg, .png, .jpeg",
               placeholder: "Choose a file..."
             },
-            on: {
-              change: function($event) {
-                _vm.$emit("changeFile", $event)
-              }
-            },
+            on: { change: _vm.changeFile },
             model: {
-              value: _vm.filelogo,
+              value: _vm.image,
               callback: function($$v) {
-                _vm.filelogo = $$v
+                _vm.image = $$v
               },
-              expression: "filelogo"
+              expression: "image"
             }
           }),
           _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _vm.$route.params.id
-            ? _c("b-img", {
-                attrs: {
-                  src: "../images/affiliations/" + _vm.$route.params.id + ".png"
-                }
-              })
-            : _vm._e(),
+          _c("b-img", { attrs: { src: _vm.image } }),
           _vm._v(" "),
           _c(
             "b-form-group",
@@ -38511,7 +38524,7 @@ var render = function() {
         1
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -38532,10 +38545,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("affiliation_form", {
-    attrs: { items: _vm.items, formname: _vm.formname, errors: _vm.errors },
-    on: { saveData: _vm.saveForm, changeFile: _vm.changeFile }
-  })
+  return _c(
+    "affiliation_form",
+    {
+      attrs: { items: _vm.items, errors: _vm.errors },
+      on: { saveData: _vm.saveForm }
+    },
+    [
+      _c("b-alert", { attrs: { show: "", variant: "info" } }, [
+        _vm._v("Create New Affiliation")
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38607,54 +38629,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
+   data: function data() {
+      return {
 
-      items: {
-        title: '',
-        url: '',
-        logo: '',
-        body: ''
+         image: '',
+         items: {
+            title: '',
+            url: '',
+            img: '',
+            body: ''
+         },
+
+         errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
+      };
+   },
+
+
+   components: { affiliation_form: __WEBPACK_IMPORTED_MODULE_1__templates_AffiliationForm_vue___default.a },
+
+   methods: {
+      fetchAffiliation: function fetchAffiliation() {
+         var app = this;
+         axios.get('/api/affiliations/' + this.$route.params.id + '/edit').then(function (resp) {
+            app.items = resp.data;
+            console.log(resp.data);
+         }).catch(function (resp) {
+            console.log(resp);
+         });
       },
-      path: '',
-      formname: 'Edit Affiliation',
-      errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
-    };
-  },
+      saveForm: function saveForm() {
+         var _this = this;
 
+         axios.put('/api/affiliations/' + this.$route.params.id, this.items).then(this.onSuccess).catch(function (error) {
+            return _this.errors.record(error.response.data.errors);
+         });
+      },
+      hasField: function hasField(field) {
+         return field === '';
+      }
+   },
 
-  components: { affiliation_form: __WEBPACK_IMPORTED_MODULE_1__templates_AffiliationForm_vue___default.a },
-
-  methods: {
-    fetchAffiliation: function fetchAffiliation() {
-      var app = this;
-      axios.get('/api/affiliations/' + this.$route.params.id + '/edit').then(function (resp) {
-        app.items = resp.data[0];
-        app.path = resp.data[1];
-        console.log(resp.data);
-      }).catch(function (resp) {
-        console.log(resp);
-      });
-    },
-    saveForm: function saveForm() {
-      var _this = this;
-
-      var newAffiliation = this.items;
-      axios.put('/api/affiliations/' + this.$route.params.id, newAffiliation).then(this.onSuccess).catch(function (error) {
-        return _this.errors.record(error.response.data.errors);
-      });
-    }
-  },
-
-  mounted: function mounted() {
-    this.fetchAffiliation();
-  }
+   mounted: function mounted() {
+      this.fetchAffiliation();
+   }
 });
 
 /***/ }),
@@ -38665,15 +38690,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("affiliation_form", {
-    attrs: {
-      items: _vm.items,
-      formname: _vm.formname,
-      errors: _vm.errors,
-      path: _vm.path
+  return _c(
+    "affiliation_form",
+    {
+      attrs: { items: _vm.items, errors: _vm.errors },
+      on: { saveData: _vm.saveForm }
     },
-    on: { saveData: _vm.saveForm }
-  })
+    [
+      _c("b-alert", { attrs: { show: "", variant: "info" } }, [
+        _vm._v("Update Affiliation")
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
