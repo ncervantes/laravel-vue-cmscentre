@@ -1,14 +1,14 @@
 <template>
-   <affiliation_form :items="items" :errors="errors" @saveData="saveForm">
+   <table_form :items="items" :errors="errors" @saveData="saveForm">
      <b-alert show variant="info">Create New Affiliation</b-alert>
-   </affiliation_form>
+   </table_form>
 </template>
 
 <script>
 
 import Errors from '../../core/errors'
 
-import affiliation_form from '../templates/AffiliationForm.vue'
+import table_form from '../templates/AffiliationForm.vue'
 
 export default {
   
@@ -19,29 +19,30 @@ export default {
         title: '',
         url: '',        
         body: '',
-        img:''
+        path_image:''
      },     
      
-     errors: new Errors(),        
+     errors: new Errors(),
+            
     }
   },
 
- components: { affiliation_form },
+ components: { table_form },
 
  methods: {     
 
-    saveForm() {          
+    saveForm() {      
         axios.post('/api/affiliations/', this.items)
            .then(this.onSuccess)
            .catch(error => this.errors.record(error.response.data.errors));
         
-    },    
+    },
+
+    onSuccess() { 
+      this.$router.replace('/affiliations'); 
+    }    
     
   },
-
-  onSuccess(response) {
-     this.$router.replace('/affiliations'); 
-  }
 
 }   
   

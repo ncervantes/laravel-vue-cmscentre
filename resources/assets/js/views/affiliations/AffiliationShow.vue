@@ -2,11 +2,14 @@
   <div>
     <b-alert show>{{items.title}}</b-alert>   
  
-     <ul>         
-         <li>Affiliation Url: {{items.url}}</li>
-         <li>Affiliation Logo: {{items.logo}}</li>
-         <li>Affiliation Body: {{items.body}}</li>
-     </ul>
+     <b-form @submit.prevent="backToList">
+       <ul>         
+           <li>Affiliation Url: {{items.url}}</li>         
+           <li>Affiliation Body: {{items.body}}</li>
+           <li>Affiliation Logo: <img :src="items.path_image"></li>
+       </ul>
+       <b-button type="submit" variant="primary">OK</b-button>
+     </b-form>
      
   </div>
 
@@ -25,7 +28,7 @@ export default {
 
   methods: { 
 
-    fetchAffiliation(){
+    fetchData(){
         let app = this;
         axios.get('/api/affiliations/' + this.$route.params.id)
              .then(function(resp) { 
@@ -35,12 +38,16 @@ export default {
              .catch(function(resp) {
                 console.log(resp);                
              });
+    },
+
+    backToList() {
+       this.$router.replace('/affiliations');
     } 
   },
   
 
   mounted() {    
-    this.fetchAffiliation();    
+    this.fetchData();    
   },
 }   
   

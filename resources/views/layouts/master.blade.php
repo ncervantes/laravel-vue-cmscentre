@@ -14,13 +14,29 @@
     <body>
         <div class="container-fluid" id ="app">
             <div class="row">
-                <div class="col-2">
-                    <router-link tag="li" to='/affiliations' exact>
-                        <a>Affiliations</a>
-                    </router-link>
-                    <router-link tag="li" to='/affiliations' exact>
-                        <a>Festivals</a>
-                    </router-link>
+                <div class="col-2 sidebar-right">
+                    <nav id="sidebar">
+                       <ul class="list-unstyled components">                          
+                          <router-link tag="li" to='/affiliations' exact>
+                             <a>Affiliations</a>
+                          </router-link>
+                          <router-link tag="li" to='/festivals' exact>
+                             <a>Festivals</a>
+                          </router-link>
+                          <router-link tag="li" to='/disciplines' exact>
+                             <a>Disciplines</a>
+                          </router-link>
+                          <router-link tag="li" to='/venues' exact>
+                             <a>Venues</a>
+                          </router-link>                          
+                          <router-link tag="li" to='/camp-categories' exact>
+                             <a>Camp Categories</a>
+                          </router-link>
+                          <router-link tag="li" to='/camps' exact>
+                             <a>Camps</a>
+                          </router-link>
+                       </ul>
+                    </nav>                    
                 </div>
                 <section class="col-10">
                     <div>
@@ -28,7 +44,9 @@
                     </div>
                 </section>           
             </div>
-        </div>
+        </div>      
+        <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>     
+        
         <script src="/js/app.js" ></script>
     </body>
 </html>

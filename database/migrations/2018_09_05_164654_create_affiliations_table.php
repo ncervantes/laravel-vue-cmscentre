@@ -15,10 +15,12 @@ class CreateAffiliationsTable extends Migration
     {
         Schema::create('affiliations', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->string('title');
             $table->string('url');
             $table->text('body');
+            $table->string('path_image')->nullable();
+            $table->timestamps();
+            
         });
     }
 

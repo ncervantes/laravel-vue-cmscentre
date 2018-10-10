@@ -1,24 +1,23 @@
 <template>
- <affiliation_form :items="items" :errors="errors" @saveData="saveForm">
+ <table_form :items="items" :errors="errors" @saveData="saveForm">
      <b-alert show variant="info">Update Affiliation</b-alert>
-   </affiliation_form>
+   </table_form>
 </template>
 
 <script>
 import Errors from '../../core/errors'
 
-import affiliation_form from '../templates/AffiliationForm.vue'
+import table_form from '../templates/AffiliationForm.vue'
 
 export default {
   
   data () {
     return {
-
-     image:'',  
+     
      items:{
        title: '',
         url: '',
-        img: '',
+        path_image: '',
         body: ''
      },
      
@@ -26,15 +25,15 @@ export default {
     }
   },
 
-  components: { affiliation_form },
+  components: { table_form },
 
  methods: { 
 
-    fetchAffiliation(){
+    fetchData(){
         let app = this;
         axios.get('/api/affiliations/' + this.$route.params.id + '/edit')
-             .then(function(resp) { 
-                app.items = resp.data;                            
+             .then(function(resp) { console.log(resp);
+                app.items = resp.data;                                       
                 console.log(resp.data);                               
              })
              .catch(function(resp) {
@@ -48,15 +47,17 @@ export default {
            .catch(error => this.errors.record(error.response.data.errors));
         
     },    
-
-    hasField(field) { 
-        return (field === '');
-     }
+    
+    onSuccess() { 
+       this.$router.replace('/affiliations');
+    }
   },
  
   mounted() {    
-    this.fetchAffiliation();    
+    this.fetchData();    
   },
+
+
    
     
 }   

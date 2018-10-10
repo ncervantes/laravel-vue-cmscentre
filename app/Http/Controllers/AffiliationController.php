@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Http\Response;
 
+include('includes/functions.php');
+
 class AffiliationController extends Controller
 {
     /**
@@ -41,31 +43,19 @@ class AffiliationController extends Controller
     public function store(Request $request)
     {
 
-         $this->validate($request, [
-             'title' =>'required',
-             'url' => 'required',             
-             'body' => 'required'
-         ]);
+        $this->validate($request, [
+            'title' =>'required',
+            'url' => 'required',             
+            'body' => 'required'
+        ]);
+       
 
-         $affiliation = Affiliation::create(request(['title', 'url', 'body' ]));
+        $affiliation = Affiliation::create(request(['title', 'url', 'body']));
 
-         $image = explode(',', $request->img);   
-
-         $decoded = base64_decode($image[1]);
-
-         if(str_contains($image[0], ['jpeg','jpg']))
-            $extension = 'jpg';
-         else 
-             $extension = 'png';
-
-         $filename = $affiliation->id . '.'. $extension;         
-
-         $path = public_path().'/images/affiliations/'.$filename;
-
-         file_put_contents($path, $decoded);
+        saveImage($request->path_image, $affiliation->id, '/images/affiliations/', $affiliation, 'path_image');
 
         
-        return ['message' => 'Project Created'];
+        return ['message' => 'Affiliation Created'];
     }
 
     /**
@@ -76,7 +66,11 @@ class AffiliationController extends Controller
      */
     public function show($id)
     {
-        $affiliation = Affiliation::find($id);
+        $affiliation = Affiliation::find($id);  
+
+        if (!fileExists($affiliation->path_image)) {
+           $affiliation->path_image = ""; 
+        }      
 
         return response()->json($affiliation);
     }
@@ -90,7 +84,11 @@ class AffiliationController extends Controller
     public function edit($id)
     {        
 
-        $affiliation = Affiliation::find($id);        
+        $affiliation = Affiliation::find($id);         
+
+        if (!fileExists($affiliation->path_image)) {
+           $affiliation->path_image = ""; 
+        }              
 
         return response()->json($affiliation);
     }
@@ -109,35 +107,17 @@ class AffiliationController extends Controller
              'title' =>'required',
              'url' => 'required',             
              'body' => 'required'
-         ]);   
-
-         if(str_contains($request->img, 'data')) {
-
-             $image = explode(',', $request->img);   
-
-             $decoded = base64_decode($image[1]);
-
-             if(str_contains($image[0], ['jpeg','jpg']))
-                $extension = 'jpg';
-             else 
-                 $extension = 'png';
-
-             $filename = $id . '.'. $extension;
-
-             $path = public_path().'/images/affiliations/';
-
-             if (file_exists($path.$id.'.jpg')) unlink($path.$id.'.jpg');
-             if (file_exists($path.$id.'.png')) unlink($path.$id.'.png');
-
-             file_put_contents($path.$filename, $decoded);
-        }
+        ]);   
 
         $affiliation = Affiliation::find($id); 
 
-        $affiliation->update(request(['title', 'url', 'body' ]));
-              
+        $affiliation->update(request(['title', 'url', 'body' ])); 
 
-       return ['message' => 'Project Updated'];
+        if(str_contains($request->path_image, 'data')) {
+            saveImage($request->path_image, $id, '/images/affiliations/', $affiliation, 'path_image' );
+        }           
+
+        return ['message' => 'Affiliation Updated'];
     }
 
     /**
@@ -149,19 +129,17 @@ class AffiliationController extends Controller
     public function destroy($id)
     {
         $affiliation = Affiliation::find($id);
+        
+        if($affiliation->path_image != null || $affiliation->path_image != "") {
+            if (fileExists($affiliation->path_image)) {
+               unlink(public_path().$affiliation->path_image);
+            }  
+        }
 
         $affiliation->delete();
 
         return ['message' => 'Affiliation Deleted'];
 
     }
-
-    public function getImageExtension($img)
-    {
-       if(str_contains($img, ['jpeg','jpg']))
-            $extension = 'jpg';
-         else 
-             $extension = 'png';
-       return $extension;  
-    }
+    
 }

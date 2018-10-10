@@ -24,21 +24,17 @@
         <span class="help is-danger" v-if="hasField(items.url)" v-text="errors.get('url')"></span>
       </b-form-group>
       
-      <b-form-file v-model="image" :state="Boolean(image)" @change="changeFile" accept=".jpg, .png, .jpeg" placeholder="Choose a file..."></b-form-file>      
-      <b-img :src="image"/> 
+      <b-form-file v-model="items.path_image" :state="Boolean(items.path_image)" @change="changeFile" accept=".jpg, .png, .jpeg" placeholder="Choose a file..."></b-form-file>      
+      <b-img :src="items.path_image"/> 
       
       <b-form-group id="bodyInputGroup"
                     label="Description:"
                     label-for="affiliationBodyInput">
-        <b-form-textarea id="textarea1"
-                     v-model="items.body"
-                     placeholder="Enter Description"
-                     :rows="3"
-                     :max-rows="6">
-        </b-form-textarea>
+        
+        <vue-ckeditor  v-model="items.body"></vue-ckeditor>
         <span class="help is-danger" v-if="hasField(items.body)" v-text="errors.get('body')"></span>
-      </b-form-group>
-      
+      </b-form-group> 
+
       <b-button type="submit" variant="primary">Submit</b-button>
       
     </b-form>
@@ -47,16 +43,13 @@
 
 
 <script>
+import VueCkeditor from 'vue-ckeditor2';
 
 export default {
   
   props: ["items", "errors"],
 
-  data () {
-    return {
-      image: null,                             
-    }
-  },
+  components: {VueCkeditor},
 
   methods: {
      hasField(field) { 
@@ -70,43 +63,12 @@ export default {
 
         fileReader.readAsDataURL(e.target.files[0])
 
-        fileReader.onload = (e) => {
-            this.image = e.target.result
-            this.items.img = e.target.result
-        }
-        console.log(this.image);
-    },
-
-    getImage(name, type)
-    { 
-        var imagelogo = new Image();
-        imagelogo.src = name + type;
-        var vm = this;
-
-        imagelogo.onload = function()
-        {
-            vm.image = name + type;
-            vm.items.img = name  + type;
-        }
-        imagelogo.onerror = function()
-        {            
-            vm.image = "";
-            vm.items.img = "";
-        }
-    }
-  },
-
-  created() {
-    if(this.$route.params.id) {
-       var filename = "/images/affiliations/"+ this.$route.params.id;
-       this.getImage(filename, ".png");
-       if(!this.image) {
-          this.getImage(filename, ".jpg");
-       }
-       
-    }
-
-  }
+        fileReader.onload = (e) => {           
+            this.items.path_image = e.target.result
+        }        
+    }, 
+    
+  },  
  
 }   
   

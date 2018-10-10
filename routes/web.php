@@ -17,8 +17,13 @@ Route::get('/', function () {
 
 
 Route::prefix('api')->group(function() {
-	Route::resource('affiliations', 'AffiliationController');	
-
+	Route::resource('affiliations', 'AffiliationController');
+	Route::resource('festivals', 'FestivalController');	
+	Route::resource('disciplines', 'DisciplineController');
+	Route::resource('venues', 'VenueController');
+	Route::resource('camp-ages', 'CampAgeController');	
+	Route::resource('camp-categories', 'CampCategoryController');
+    Route::resource('camps', 'CampController');
 });
 
 

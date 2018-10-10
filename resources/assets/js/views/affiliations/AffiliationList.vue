@@ -1,5 +1,5 @@
 <template>
-  <list-template :items = "aff_items" :fields = "aff_fields" :showAction = "showAction" :editAction = "editAction" :addAction="addAction" :deleteAction="deleteAction"></list-template>
+  <list-template :items = "all_items" :fields = "all_fields" :showAction = "showAction" :editAction = "editAction" :addAction="addAction" :deleteAction="deleteAction"></list-template>
 </template>
 
 <script>
@@ -11,8 +11,8 @@ export default {
 
   data () {
     return {
-       aff_items: [],
-       aff_fields: [
+       all_items: [],
+       all_fields: [
         { key: 'title', label: 'Affiliation Name', sortable: true, sortDirection: 'desc' },
         { key: 'url', label: 'Affiliation URL', sortable: true, 'class': 'text-center' },               
         { key: 'actions', label: 'Actions'}
@@ -31,12 +31,11 @@ export default {
   
   methods: { 
 
-    fetchAffiliation(){
+    fetchData(){
         let app = this;
         axios.get('/api/affiliations')
              .then(function(resp) { 
-                app.aff_items = resp.data.affiliations;              
-                console.log(resp.data.affiliations);                
+                app.all_items = resp.data.affiliations;
              })
              .catch(function(resp) {
                 console.log(resp.data);                
@@ -45,7 +44,7 @@ export default {
   },
 
   created() {
-     this.fetchAffiliation();
+     this.fetchData();
   }
 
 }

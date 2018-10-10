@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Affiliation extends Model
 {
-	protected $uploads ='/images';
-    protected $guarded = [];
+	protected $guarded = [];
 
-    public function getFileAttribute($photo) {
-    	return $this->uploads . $photo;
-    }
+	public function festivals()
+	{
+	    return $this->hasMany(Festival::class);
+	}
+
 }

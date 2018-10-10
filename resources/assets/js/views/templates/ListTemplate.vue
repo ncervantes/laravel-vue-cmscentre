@@ -7,7 +7,7 @@
           <b-input-group>
             <b-form-input v-model="filter" placeholder="Type to Search" />
             <b-input-group-append>
-              <b-btn :disabled="!filter" @click="filter = ''">Clear</b-btn>
+              <b-btn :disabled="!filter" variant="primary" @click="filter = ''">Clear</b-btn>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -42,7 +42,7 @@
         </b-form-group>
       </b-col>
       <b-col md="6" class="my-1">
-        <b-button size="sm" class="mr-1">
+        <b-button size="sm" class="mr-1" variant="primary">
           <router-link :to="{ name: addAction}">Create New </router-link>
         </b-button>
       </b-col>    
@@ -65,20 +65,20 @@
       <template slot="isActive" slot-scope="row">{{row.value?'Yes :)':'No :('}}</template>
       <template slot="actions" slot-scope="row">
         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-        <b-button size="sm" class="mr-1">
+        <b-button size="sm" class="mr-1" variant="warning">
           <router-link :to="{ name: showAction, params: { id: row.item['id'] } }">Show</router-link>
         </b-button>
-        <b-button size="sm" class="mr-1">
+        <b-button size="sm" class="mr-1" variant="success">
           <router-link :to="{ name: editAction, params: { id: row.item['id'] } }">Edit</router-link>
         </b-button>
-        <b-button size="sm" class="mr-1">
+        <b-button size="sm" class="mr-1" variant="danger">
           <router-link :to="{ name: deleteAction, params: { id: row.item['id'] } }">Delete</router-link>
         </b-button>
       </template>
       <template slot="row-details" slot-scope="row">
         <b-card>
           <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value}}</li>
+            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
           </ul>
         </b-card>
       </template>
@@ -89,7 +89,6 @@
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
       </b-col>
     </b-row>
-    
 
   </b-container>
 </template>
