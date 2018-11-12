@@ -1,6 +1,6 @@
 <template>
   <div>
- 
+     <b-alert show>User</b-alert>
      <b-form @submit.prevent="backToList">
       <ul>         
           <li>UserName: {{items.username}}</li>  

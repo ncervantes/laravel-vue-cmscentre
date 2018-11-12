@@ -27,6 +27,8 @@ Route::prefix('api')->group(function() {
     Route::resource('camps', 'CampController');
     Route::resource('groups', 'GroupController');
     Route::resource('users', 'UserController');
+    Route::resource('page-templates', 'PageTemplateController');
+    Route::resource('style-sheets', 'StyleSheetController');
 });
 
 

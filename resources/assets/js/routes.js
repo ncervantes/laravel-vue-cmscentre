@@ -403,6 +403,86 @@ let routes = [
 
         name: 'deleteUser'
    },
+
+   {
+        path:'/page-templates',
+
+        component: require('./views/pageTemplates/PageTemplateList.vue'),
+
+        name:'listPageTemplate'
+   },
+
+   {
+        path:'/page-templates-show/:id',
+
+        component: require('./views/pageTemplates/PageTemplateShow.vue'),
+
+        name: 'showPageTemplate'
+   },
+
+   {
+        path:'/page-templates-add',
+
+        component: require('./views/pageTemplates/PageTemplateAdd.vue'),
+
+        name: 'addPageTemplate'
+   },
+
+   {
+        path:'/page-templates-edit/:id',
+
+        component: require('./views/pageTemplates/PageTemplateEdit.vue'),
+
+        name: 'editPageTemplate'
+   },
+
+   {
+        path:'/page-template-delete/:id',
+
+        component: require('./views/pageTemplates/PageTemplateDelete.vue'),
+
+        name: 'deletePageTemplate'
+   },
+
+   {
+        path:'/style-sheets',
+
+        component: require('./views/styleSheets/StyleSheetList.vue'),
+
+        name:'listStyleSheet'
+   },
+
+   {
+        path:'/style-sheets-show/:id',
+
+        component: require('./views/styleSheets/StyleSheetShow.vue'),
+
+        name: 'showStyleSheet'
+   },
+
+   {
+        path:'/style-sheets-add',
+
+        component: require('./views/styleSheets/StyleSheetAdd.vue'),
+
+        name: 'addStyleSheet'
+   },
+
+   {
+        path:'/style-sheets-edit/:id',
+
+        component: require('./views/styleSheets/StyleSheetEdit.vue'),
+
+        name: 'editStyleSheet'
+   },
+
+   {
+        path:'/style-sheets-delete/:id',
+
+        component: require('./views/styleSheets/StyleSheetDelete.vue'),
+
+        name: 'deleteStyleSheet'
+   },
    
    
 ]

@@ -21,12 +21,20 @@
             <div class="row">
                 <div class="col-2 sidebar-right">
                     <nav id="sidebar">
-                       <ul class="list-unstyled components"> 
+                       <ul class="list-unstyled components">
+                          <h3>Users</h3> 
                           <router-link tag="li" to='/groups' exact>
                              <a>User Group</a>
                           </router-link>
                           <router-link tag="li" to='/users' exact>
                              <a>User Manager</a>
+                          </router-link>
+                          <h3>Pages & Menu</h3>
+                          <router-link tag="li" to='/page-templates' exact>
+                             <a>Page Template</a>
+                          </router-link>
+                          <router-link tag="li" to='/style-sheets' exact>
+                             <a>Style Sheet</a>
                           </router-link>
                           <h3>Camps</h3>
                           <router-link tag="li" to='/camp-categories' exact>
@@ -35,7 +43,7 @@
                           <router-link tag="li" to='/camps' exact>
                              <a>Camps</a>
                           </router-link>
-                          <h3>Events</h3>                         
+                          <h3>Show and Events</h3>                         
                           <router-link tag="li" to='/affiliations' exact>
                              <a>Affiliations</a>
                           </router-link>

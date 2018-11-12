@@ -1,7 +1,6 @@
 <template>
   <div>
-    <b-alert show>Venue</b-alert>      
- 
+    <b-alert show>Venue</b-alert> 
      <b-form @submit.prevent="backToList">
        <ul> 
            <li>Venue Name: {{items.title}}</li>                  

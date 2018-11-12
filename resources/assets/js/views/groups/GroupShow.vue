@@ -1,6 +1,6 @@
 <template>
   <div>
- 
+     <b-alert show>Group</b-alert>
      <b-form @submit.prevent="backToList">
        <p>Group Name: {{items.title}}</p>
        <p>Users Selected: </p>

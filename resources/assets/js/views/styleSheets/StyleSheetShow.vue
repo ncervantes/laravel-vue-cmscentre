@@ -1,24 +1,16 @@
 <template>
   <div>
-    <b-alert show>Affiliation</b-alert> 
+     <b-alert show>Page Template</b-alert>
      <b-form @submit.prevent="backToList">
-       <p>Affiliation Name: {{items.title}}</p> 
-       <ul>         
-           <li>Affiliation Url: {{items.url}}</li>         
-           <li>Affiliation Body: {{items.body}}</li>
-           <li>Affiliation Logo: <img :src="items.path_image"></li>
-       </ul>
+       <p>Page Template Title: {{items.title}}</p>
        <b-button type="submit" variant="primary">OK</b-button>
-     </b-form>
-     
+     </b-form>     
   </div>
-
 </template>
 
 <script>
 
 export default {
-  
 
   data () {
     return {      
@@ -30,10 +22,9 @@ export default {
 
     fetchData(){
         let app = this;
-        axios.get('/api/affiliations/' + this.$route.params.id)
+        axios.get('/api/style-sheets/' + this.$route.params.id)
              .then(function(resp) { 
-                app.items = resp.data;              
-                console.log(resp.data);                
+                app.items = resp.data; 
              })
              .catch(function(resp) {
                 console.log(resp);                
@@ -41,10 +32,9 @@ export default {
     },
 
     backToList() {
-       this.$router.replace('/affiliations');
+       this.$router.replace('/style-sheets');
     } 
   },
-  
 
   mounted() {    
     this.fetchData();    

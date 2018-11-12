@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-alert show>{{items.title}}</b-alert>   
+    <b-alert show>Event</b-alert>   
  
      <b-form @submit.prevent="backToList">
+       <p>Event Name: {{items.title}}</p>
        <ul>         
            <li>Affiliation: {{items.affiliations.title}}</li>
            <li>Section: {{items.section}}</li>
