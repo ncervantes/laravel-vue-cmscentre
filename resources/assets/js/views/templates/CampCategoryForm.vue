@@ -33,18 +33,6 @@ export default {
      hasField(field) { 
         return (field === '');
      },
-
-     changeFile(e) {
-        console.log(e.target.files[0]);
-
-        var fileReader = new FileReader()
-
-        fileReader.readAsDataURL(e.target.files[0])
-
-        fileReader.onload = (e) => {           
-            this.items.path_image = e.target.result
-        }        
-    }, 
     
   },  
  

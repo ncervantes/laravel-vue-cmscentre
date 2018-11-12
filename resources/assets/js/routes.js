@@ -244,7 +244,167 @@ let routes = [
         name: 'deleteCamp'
    },
 
+   {
+        path:'/eventcategories',
 
+        component: require('./views/eventCategories/EventCategoryList.vue'),
+
+        name:'listEventCategory'
+   },
+
+   {
+        path:'/eventcategories-add',
+
+        component: require('./views/eventCategories/EventCategoryAdd.vue'),
+
+        name: 'addEventCategory'
+   },
+
+   {
+        path:'/eventcategories-edit/:id',
+
+        component: require('./views/eventCategories/EventCategoryEdit.vue'),
+
+        name: 'editEventCategory'
+   },
+
+   {
+        path:'/eventcategories-show/:id',
+
+        component: require('./views/eventCategories/EventCategoryShow.vue'),
+
+        name: 'showEventCategory'
+   },
+
+   {
+        path:'/eventcategories-delete/:id',
+
+        component: require('./views/eventCategories/EventCategoryDelete.vue'),
+
+        name: 'deleteEventCategory'
+   },
+
+   {
+        path:'/events',
+
+        component: require('./views/events/EventList.vue'),
+
+        name:'listEvent'
+   },
+
+   {
+        path:'/event-show/:id',
+
+        component: require('./views/events/EventShow.vue'),
+
+        name: 'showEvent'
+   },
+
+   {
+        path:'/event-add',
+
+        component: require('./views/events/EventAdd.vue'),
+
+        name: 'addEvent'
+   },
+
+   {
+        path:'/event-edit/:id',
+
+        component: require('./views/events/EventEdit.vue'),
+
+        name: 'editEvent'
+   },
+
+   {
+        path:'/event-delete/:id',
+
+        component: require('./views/events/EventDelete.vue'),
+
+        name: 'deleteEvent'
+   },
+
+   {
+        path:'/groups',
+
+        component: require('./views/groups/GroupList.vue'),
+
+        name:'listGroup'
+   },
+
+   {
+        path:'/group-show/:id',
+
+        component: require('./views/groups/GroupShow.vue'),
+
+        name: 'showGroup'
+   },
+
+   {
+        path:'/group-add',
+
+        component: require('./views/groups/GroupAdd.vue'),
+
+        name: 'addGroup'
+   },
+
+   {
+        path:'/group-edit/:id',
+
+        component: require('./views/groups/GroupEdit.vue'),
+
+        name: 'editGroup'
+   },
+
+   {
+        path:'/group-delete/:id',
+
+        component: require('./views/groups/GroupDelete.vue'),
+
+        name: 'deleteGroup'
+   },
+
+   {
+        path:'/users',
+
+        component: require('./views/users/UserList.vue'),
+
+        name:'listUser'
+   },
+
+   {
+        path:'/user-show/:id',
+
+        component: require('./views/users/UserShow.vue'),
+
+        name: 'showUser'
+   },
+
+   {
+        path:'/user-add',
+
+        component: require('./views/users/UserAdd.vue'),
+
+        name: 'addUser'
+   },
+
+   {
+        path:'/user-edit/:id',
+
+        component: require('./views/users/UserEdit.vue'),
+
+        name: 'editUser'
+   },
+
+   {
+        path:'/user-delete/:id',
+
+        component: require('./views/users/UserDelete.vue'),
+
+        name: 'deleteUser'
+   },
+   
+   
 ]
 
 export default new VueRouter({

@@ -71,8 +71,11 @@
         <b-button size="sm" class="mr-1" variant="success">
           <router-link :to="{ name: editAction, params: { id: row.item['id'] } }">Edit</router-link>
         </b-button>
-        <b-button size="sm" class="mr-1" variant="danger">
-          <router-link :to="{ name: deleteAction, params: { id: row.item['id'] } }">Delete</router-link>
+        <b-button size="sm" class="mr-1" variant="danger" v-if = "deleteAction != 'deleteUser'" >
+          <router-link :to="{ name: deleteAction, params: { id: row.item['id'], title: row.item['title'] } }">Delete</router-link>
+        </b-button>
+        <b-button size="sm" class="mr-1" variant="danger" v-if = "deleteAction == 'deleteUser'" >
+          <router-link :to="{ name: deleteAction, params: { id: row.item['id'], title: row.item['username'] } }">Delete</router-link>
         </b-button>
       </template>
       <template slot="row-details" slot-scope="row">

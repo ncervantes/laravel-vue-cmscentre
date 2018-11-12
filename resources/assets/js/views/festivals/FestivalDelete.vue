@@ -1,47 +1,22 @@
 <template>
-  <div>
-    <b-form @submit.prevent ="deleteItem">
-      <b-alert show variant="info">Delete Festival</b-alert>
-      <h3>{{items.title}}</h3>
-      <p>The action cannot be undone</p>
-      <b-button type="submit" variant="primary">Delete</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-  </div>
+  <deleteitem :table="table" :id="id" :title="title" :listTable="listTable">
+    <b-alert show variant="info">Delete Festival</b-alert>
+  </deleteitem>
 </template>
 <script>
+  import deleteitem from '../templates/DeleteItem.vue'
   export default {
 
-  data () {
-    return {      
-      items: '',
-    }
-  },
-
-  methods: { 
-
-    fetchData(){
-        let app = this;
-        axios.get('/api/festivals/' + this.$route.params.id)
-             .then(function(resp) { 
-                app.items = resp.data;
-             })
-             .catch(function(resp) {
-                console.log(resp);                
-             });
+    data() {
+       return {
+          table: "festivals",
+          id: this.$route.params.id,
+          title: this.$route.params.title,
+          listTable: "listFestival"
+       }
     },
 
-    deleteItem() {
-        axios.delete('/api/festivals/' + this.$route.params.id)
-             .then((response)=> {
-                 this.$router.push({name:'listFestivals'})
-             });
-    } 
-  },
+    components: { deleteitem }
 
-  mounted() {    
-    this.fetchData();    
-  },
-     
   }
 </script>

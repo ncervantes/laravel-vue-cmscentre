@@ -12,4 +12,9 @@ class Festival extends Model
 	{
         return $this->belongsTo(Affiliation::class, 'affiliation_id','id')->select(['title','id']);
     }
+
+    public function events()
+	{
+	    return $this->hasMany(Event::class);
+	}
 }

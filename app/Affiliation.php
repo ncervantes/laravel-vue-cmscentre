@@ -13,4 +13,9 @@ class Affiliation extends Model
 	    return $this->hasMany(Festival::class);
 	}
 
+	public function events()
+	{
+	    return $this->hasMany(Event::class);
+	}
+
 }

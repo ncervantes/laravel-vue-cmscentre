@@ -91,31 +91,15 @@
 
 
 <script>
-import VueCkeditor from 'vue-ckeditor2';
 
 export default {
   
   props: ["items", "errors"],
 
-  components: {VueCkeditor},
-
   methods: {
      hasField(field) { 
         return (field === '');
-     },
-
-     changeFile(e) {
-        console.log(e.target.files[0]);
-
-        var fileReader = new FileReader()
-
-        fileReader.readAsDataURL(e.target.files[0])
-
-        fileReader.onload = (e) => {           
-            this.items.logo = e.target.result
-        }        
-    }, 
-    
+     }
   },  
  
 }   

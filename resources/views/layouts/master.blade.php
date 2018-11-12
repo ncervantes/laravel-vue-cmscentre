@@ -9,14 +9,33 @@
         <link rel="stylesheet" href="/css/app.css">
 
         <title>Laravel</title>
+        <style>
+          [v-cloak] {
+            display: none;
+          }
+        </style>
 
     </head>
     <body>
-        <div class="container-fluid" id ="app">
+        <div class="container-fluid" id ="app" v-cloak>
             <div class="row">
                 <div class="col-2 sidebar-right">
                     <nav id="sidebar">
-                       <ul class="list-unstyled components">                          
+                       <ul class="list-unstyled components"> 
+                          <router-link tag="li" to='/groups' exact>
+                             <a>User Group</a>
+                          </router-link>
+                          <router-link tag="li" to='/users' exact>
+                             <a>User Manager</a>
+                          </router-link>
+                          <h3>Camps</h3>
+                          <router-link tag="li" to='/camp-categories' exact>
+                             <a>Camp Categories</a>
+                          </router-link>
+                          <router-link tag="li" to='/camps' exact>
+                             <a>Camps</a>
+                          </router-link>
+                          <h3>Events</h3>                         
                           <router-link tag="li" to='/affiliations' exact>
                              <a>Affiliations</a>
                           </router-link>
@@ -28,13 +47,14 @@
                           </router-link>
                           <router-link tag="li" to='/venues' exact>
                              <a>Venues</a>
-                          </router-link>                          
-                          <router-link tag="li" to='/camp-categories' exact>
-                             <a>Camp Categories</a>
+                          </router-link> 
+                          <router-link tag="li" to='/eventcategories' exact>
+                             <a>Event Categories</a>
                           </router-link>
-                          <router-link tag="li" to='/camps' exact>
-                             <a>Camps</a>
+                          <router-link tag="li" to='/events' exact>
+                             <a>Events</a>
                           </router-link>
+                          
                        </ul>
                     </nav>                    
                 </div>
@@ -48,5 +68,6 @@
         <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>     
         
         <script src="/js/app.js" ></script>
+        
     </body>
 </html>

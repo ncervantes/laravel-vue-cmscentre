@@ -1,5 +1,5 @@
 <template>
-  <deleteitem :table="table" :id="id">
+  <deleteitem :table="table" :id="id" :title="title" :listTable="listTable">
     <b-alert show variant="info">Delete Affiliation</b-alert>
   </deleteitem>
 </template>
@@ -10,7 +10,9 @@
     data() {
        return {
           table: "affiliations",
-          id: this.$route.params.id
+          id: this.$route.params.id,
+          title: this.$route.params.title,
+          listTable: "listAffiliation"
        }
     },
 
