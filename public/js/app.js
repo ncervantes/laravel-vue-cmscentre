@@ -50218,11 +50218,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          secondOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
          thirdOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
          fourOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
+         showAfterOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
 
          checked: false,
-         checkedMenu: false,
-         showAfterOptions: []
-
+         checkedMenu: false
       };
    },
 
@@ -50260,6 +50259,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          }).catch(function (resp) {
             console.log(resp.data);
          });
+
+         app.showAfterOptions = option;
       },
       getSelection: function getSelection(listbox, level) {
          var app = this;
@@ -50656,7 +50657,7 @@ var render = function() {
               _vm._v(" "),
               _c("b-form-select", {
                 staticClass: "mb-3",
-                attrs: { options: _vm.showAfterOptions },
+                attrs: { options: _vm.showAfterOptions.get() },
                 model: {
                   value: _vm.items.showAfter,
                   callback: function($$v) {

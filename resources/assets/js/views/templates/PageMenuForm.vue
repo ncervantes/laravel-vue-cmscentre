@@ -82,7 +82,7 @@
 
       <b-form-group id="showAfterGroup">
         <p>Show After:</p>
-        <b-form-select v-model="items.showAfter" :options="showAfterOptions" class="mb-3" />
+        <b-form-select v-model="items.showAfter" :options="showAfterOptions.get()" class="mb-3" />
       </b-form-group>
 
       <b-form-group>
@@ -112,11 +112,10 @@ export default {
         secondOptions: new Options(),
         thirdOptions: new Options(),
         fourOptions: new Options(),
+        showAfterOptions: new Options(),
         
         checked: false,
-        checkedMenu: false,
-        showAfterOptions: [],
-        
+        checkedMenu: false, 
      }
   },
   
@@ -150,12 +149,14 @@ export default {
         } 
 
         axios.get(url)
-             .then(function(resp) {                 
-                option.setOptionItems(resp.data.pagemenu);
-             })
-             .catch(function(resp) {
-                console.log(resp.data);                
-             });
+           .then(function(resp) {                 
+              option.setOptionItems(resp.data.pagemenu);              
+           })
+           .catch(function(resp) {
+              console.log(resp.data);                
+           });
+
+        app.showAfterOptions = option;   
      },
 
      getSelection(listbox, level) { 
