@@ -29,8 +29,10 @@ Route::prefix('api')->group(function() {
     Route::resource('users', 'UserController');
     Route::resource('page-templates', 'PageTemplateController');
     Route::resource('style-sheets', 'StyleSheetController');
+    Route::resource('page-menus', 'PageMenuController');
 });
 
+Route::get('/menu/page-menus/{value}', 'PageMenuController@getChildren');
 
 Route::get('/{any}', function() {
 	return view('welcome');

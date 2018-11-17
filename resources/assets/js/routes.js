@@ -483,7 +483,22 @@ let routes = [
 
         name: 'deleteStyleSheet'
    },
-   
+
+   {
+        path:'/page-menus',
+
+        component: require('./views/page&menus/PageMenuTree.vue'),
+
+        name:'listPageMenu'
+   },
+
+   {
+        path:'/page-menus-add',
+
+        component: require('./views/page&menus/PageMenuAdd.vue'),
+
+        name:'addPageMenu'
+   },
    
 ]
 

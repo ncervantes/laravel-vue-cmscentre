@@ -30,6 +30,9 @@
                              <a>User Manager</a>
                           </router-link>
                           <h3>Pages & Menu</h3>
+                          <router-link tag="li" to='/page-menus' exact>
+                             <a>Pages & Menu Manager</a>
+                          </router-link>
                           <router-link tag="li" to='/page-templates' exact>
                              <a>Page Template</a>
                           </router-link>
