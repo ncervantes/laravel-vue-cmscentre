@@ -45,7 +45,14 @@ class PageMenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'url' =>   'required',          
+        ]);       
+
+        $pagemenu = PageMenu::create(request(['title', 'url']));        
+        
+        return ['message' => 'Group Created'];
     }
 
     /**

@@ -27,7 +27,7 @@
 
       <b-form-group id="pageTemplateGroup">
         <p>Page Template: </p>
-        <b-form-select v-model="items.selected" :options="pageTemplateOptions" class="mb-3" />
+        <b-form-select v-model="items.pageTemplate" :options="pageTemplateOptions.get()" class="mb-3" />
       </b-form-group>
 
       <h3>Page Details</h3>
@@ -104,18 +104,17 @@
 export default {
 
   data() {
-     return {
-        pageTemplateOptions:[],
-        stylesheetOptions: [],
-        
-        firstOptions: new Options(),
-        secondOptions: new Options(),
-        thirdOptions: new Options(),
-        fourOptions: new Options(),
-        showAfterOptions: new Options(),
-        
+     return {        
+        pageTemplateOptions: new Options('pageTemplate'),
+        stylesheetOptions: [],        
+        firstOptions: new Options('pageMenu'),
+        secondOptions: new Options('pageMenu'),
+        thirdOptions: new Options('pageMenu'),
+        fourOptions: new Options('pageMenu'),
+        showAfterOptions: new Options('pageMenuAfter'),        
         checked: false,
         checkedMenu: false, 
+        url:'',
      }
   },
   
@@ -126,61 +125,61 @@ export default {
         return (field === '');
      },
 
-     fetchPageMenus(level, value) {
-        let app = this; 
-        var option; 
-         
-        if (level != 'NA' && value != 0) {
-           var url = '/menu/page-menus/' + value; 
-        } else if (level == 'NA') {
-           var url = '/api/page-menus';
-        } else {
-           return;
-        }
+    fetchPageMenus(level, value) {
+      let app = this; 
+      var options; 
+       
+      if (level != 'NA' && value != 0) {
+         this.url = '/menu/page-menus/' + value; 
+      } else if (level == 'NA') {
+         this.url = '/api/page-menus';
+      } else {
+         return;
+      }
 
-        if(level == 'NA') {
-           option = app.firstOptions;
-        } else if(level == 'first') { 
-           option = app.secondOptions;
-        } else if(level == 'second') {
-           option = app.thirdOptions;
-        } else if(level == 'third') {
-           option = app.fourOptions;
-        } 
+      if(level == 'NA') {
+         options = app.firstOptions;
+         app.showAfterOptions.clear(app.showAfterOptions);
+      } else if(level == 'first') { 
+         options = app.secondOptions;
+         app.showAfterOptions.clear(app.showAfterOptions);
+         app.showAfterOptions.setOptionValues(this.url);
+      } else if(level == 'second') {
+         options = app.thirdOptions;
+         app.showAfterOptions.clear(app.showAfterOptions);
+         app.showAfterOptions.setOptionValues(this.url);
+      } else if(level == 'third') {
+         options = app.fourOptions;
+         app.showAfterOptions.clear(app.showAfterOptions);
+         app.showAfterOptions.setOptionValues(this.url);
+      } 
+      
+      options.setOptionValues(this.url); 
+      
+    },
 
-        axios.get(url)
-           .then(function(resp) {                 
-              option.setOptionItems(resp.data.pagemenu);              
-           })
-           .catch(function(resp) {
-              console.log(resp.data);                
-           });
+    getSelection(listbox, level) { 
+      let app = this;
+      var e = document.getElementById(listbox);
+      var value = e.options[e.selectedIndex].value; 
 
-        app.showAfterOptions = option;   
-     },
-
-     getSelection(listbox, level) { 
-        let app = this;
-        var e = document.getElementById(listbox);
-        var value = e.options[e.selectedIndex].value; 
-
-        if(level == 'first' && value == 0) {          
-          app.secondOptions.clear(app.secondOptions, app.items.second);
-          app.thirdOptions.clear(app.thirdOptions, app.items.third);
-          app.fourOptions.clear(app.fourOptions, app.items.fourth); 
-          app.clear(app.items.index, app.items.index.length, 0);
-          return;
-        } else if (level == 'second' && value == 0) {
-          app.thirdOptions.clear(app.thirdOptions, app.items.third);
-          app.fourOptions.clear(app.fourOptions, app.items.fourth); 
-          app.clear(app.items.index, app.items.index.length - 1,1); 
-        } else if (level == 'third' && value == 0) {
-          app.fourOptions.clear(app.fourOptions, app.items.fourth); 
-          app.clear(app.items.index, app.items.index.length - 2,2);
-        }
-        
-        app.fetchPageMenus(level, value);
-     },
+      if(level == 'first' && value == 0) {          
+        app.secondOptions.clear(app.secondOptions);
+        app.thirdOptions.clear(app.thirdOptions);
+        app.fourOptions.clear(app.fourOptions);         
+        app.clear(app.items.index, app.items.index.length, 0);
+        return;
+      } else if (level == 'second' && value == 0) {
+        app.thirdOptions.clear(app.thirdOptions);
+        app.fourOptions.clear(app.fourOptions);        
+        app.clear(app.items.index, app.items.index.length - 1,1); 
+      } else if (level == 'third' && value == 0) {
+        app.fourOptions.clear(app.fourOptions);        
+        app.clear(app.items.index, app.items.index.length - 2,2);
+      }
+      
+      app.fetchPageMenus(level, value);
+    },
 
     clear(index, count, idx) { 
        if(count > 0) {
@@ -188,10 +187,11 @@ export default {
              index[i] = 0;
           }
        }
-    },
+    }    
   },
 
-  created() {
+  created() {       
+    this.pageTemplateOptions.setOptionValues('api/page-templates/');    
     this.fetchPageMenus('NA', 0); 
   }  
  

@@ -18,7 +18,8 @@ export default {
      items:{        
         title: '', 
         index: [0,0,0,0],
-        showAfter: 0       
+        showAfter: 0,
+        pageTemplate: 'Camps',       
      },     
      
      errors: new Errors(),

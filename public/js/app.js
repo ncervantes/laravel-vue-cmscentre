@@ -50025,7 +50025,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       items: {
         title: '',
         index: [0, 0, 0, 0],
-        showAfter: 0
+        showAfter: 0,
+        pageTemplate: 'Camps'
       },
 
       errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
@@ -50211,17 +50212,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
    data: function data() {
       return {
-         pageTemplateOptions: [],
+         pageTemplateOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageTemplate'),
          stylesheetOptions: [],
-
-         firstOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
-         secondOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
-         thirdOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
-         fourOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
-         showAfterOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */](),
-
+         firstOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageMenu'),
+         secondOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageMenu'),
+         thirdOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageMenu'),
+         fourOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageMenu'),
+         showAfterOptions: new __WEBPACK_IMPORTED_MODULE_0__core_options__["a" /* default */]('pageMenuAfter'),
          checked: false,
-         checkedMenu: false
+         checkedMenu: false,
+         url: ''
       };
    },
 
@@ -50234,33 +50234,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       },
       fetchPageMenus: function fetchPageMenus(level, value) {
          var app = this;
-         var option;
+         var options;
 
          if (level != 'NA' && value != 0) {
-            var url = '/menu/page-menus/' + value;
+            this.url = '/menu/page-menus/' + value;
          } else if (level == 'NA') {
-            var url = '/api/page-menus';
+            this.url = '/api/page-menus';
          } else {
             return;
          }
 
          if (level == 'NA') {
-            option = app.firstOptions;
+            options = app.firstOptions;
+            app.showAfterOptions.clear(app.showAfterOptions);
          } else if (level == 'first') {
-            option = app.secondOptions;
+            options = app.secondOptions;
+            app.showAfterOptions.clear(app.showAfterOptions);
+            app.showAfterOptions.setOptionValues(this.url);
          } else if (level == 'second') {
-            option = app.thirdOptions;
+            options = app.thirdOptions;
+            app.showAfterOptions.clear(app.showAfterOptions);
+            app.showAfterOptions.setOptionValues(this.url);
          } else if (level == 'third') {
-            option = app.fourOptions;
+            options = app.fourOptions;
+            app.showAfterOptions.clear(app.showAfterOptions);
+            app.showAfterOptions.setOptionValues(this.url);
          }
 
-         axios.get(url).then(function (resp) {
-            option.setOptionItems(resp.data.pagemenu);
-         }).catch(function (resp) {
-            console.log(resp.data);
-         });
-
-         app.showAfterOptions = option;
+         options.setOptionValues(this.url);
       },
       getSelection: function getSelection(listbox, level) {
          var app = this;
@@ -50268,17 +50269,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          var value = e.options[e.selectedIndex].value;
 
          if (level == 'first' && value == 0) {
-            app.secondOptions.clear(app.secondOptions, app.items.second);
-            app.thirdOptions.clear(app.thirdOptions, app.items.third);
-            app.fourOptions.clear(app.fourOptions, app.items.fourth);
+            app.secondOptions.clear(app.secondOptions);
+            app.thirdOptions.clear(app.thirdOptions);
+            app.fourOptions.clear(app.fourOptions);
             app.clear(app.items.index, app.items.index.length, 0);
             return;
          } else if (level == 'second' && value == 0) {
-            app.thirdOptions.clear(app.thirdOptions, app.items.third);
-            app.fourOptions.clear(app.fourOptions, app.items.fourth);
+            app.thirdOptions.clear(app.thirdOptions);
+            app.fourOptions.clear(app.fourOptions);
             app.clear(app.items.index, app.items.index.length - 1, 1);
          } else if (level == 'third' && value == 0) {
-            app.fourOptions.clear(app.fourOptions, app.items.fourth);
+            app.fourOptions.clear(app.fourOptions);
             app.clear(app.items.index, app.items.index.length - 2, 2);
          }
 
@@ -50294,6 +50295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    },
 
    created: function created() {
+      this.pageTemplateOptions.setOptionValues('api/page-templates/');
       this.fetchPageMenus('NA', 0);
    }
 });
@@ -50308,40 +50310,68 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Options = function () {
-    function Options() {
-        _classCallCheck(this, Options);
+  function Options(page) {
+    _classCallCheck(this, Options);
 
-        this.options = [{ value: '0', text: '--NA--' }];
+    if (page == 'pageMenu') {
+      this.options = [{ value: '0', text: '--NA--' }];
+    } else if (page == 'pageTemplate') {
+      this.options = [];
+    } else {
+      this.options = [{ value: '0', text: '--First--' }];
     }
+    this.page = page;
+  }
 
-    _createClass(Options, [{
-        key: 'setOptionItems',
-        value: function setOptionItems(resp) {
-            if (resp.length > 0) {
-                for (var i = 0; i < resp.length; i++) {
-                    this.options.push({
-                        value: resp[i].id,
-                        text: resp[i].title
-                    });
-                }
-            }
-        }
-    }, {
-        key: 'get',
-        value: function get() {
-            return this.options;
-        }
-    }, {
-        key: 'clear',
-        value: function clear(options) {
-            options = [];
-            options = [{ value: '0', text: '--NA--' }];
-            this.options = options;
-            return this.options;
-        }
-    }]);
+  _createClass(Options, [{
+    key: 'get',
+    value: function get() {
+      return this.options;
+    }
+  }, {
+    key: 'clear',
+    value: function clear(options) {
+      options = [];
+      if (this.page == 'pageMenu') {
+        options = [{ value: '0', text: '--NA--' }];
+      } else {
+        options = [{ value: '0', text: '--First--' }];
+      }
 
-    return Options;
+      this.options = options;
+      return this.options;
+    }
+  }, {
+    key: 'setOptionValues',
+    value: function setOptionValues(url) {
+      var app = this;
+
+      axios.get(url).then(function (resp) {
+        if (app.page == 'pageMenu' || app.page == 'pageMenuAfter') {
+          var result = resp.data.pagemenu;
+        } else {
+          var result = resp.data.page_templates;
+        }
+
+        for (var i = 0; i < result.length; i++) {
+          if (app.page == 'pageTemplate') {
+            var value = result[i].title;
+          } else {
+            var value = result[i].id;
+          }
+
+          app.options.push({
+            value: value,
+            text: result[i].title
+          });
+        }
+      }).catch(function (resp) {
+        console.log(resp.data);
+      });
+    }
+  }]);
+
+  return Options;
 }();
 
 /* harmony default export */ __webpack_exports__["a"] = (Options);
@@ -50451,13 +50481,13 @@ var render = function() {
               _vm._v(" "),
               _c("b-form-select", {
                 staticClass: "mb-3",
-                attrs: { options: _vm.pageTemplateOptions },
+                attrs: { options: _vm.pageTemplateOptions.get() },
                 model: {
-                  value: _vm.items.selected,
+                  value: _vm.items.pageTemplate,
                   callback: function($$v) {
-                    _vm.$set(_vm.items, "selected", $$v)
+                    _vm.$set(_vm.items, "pageTemplate", $$v)
                   },
-                  expression: "items.selected"
+                  expression: "items.pageTemplate"
                 }
               })
             ],
