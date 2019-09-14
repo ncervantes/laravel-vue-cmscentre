@@ -48585,9 +48585,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
 
-      items: {
-        title: ''
-      },
+      items: {},
 
       errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
 
@@ -49383,9 +49381,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
 
-      items: {
-        title: ''
-      },
+      items: {},
 
       errors: new __WEBPACK_IMPORTED_MODULE_0__core_errors__["a" /* default */]()
 

@@ -30,6 +30,7 @@
         "vue-ckeditor": "^1.0.0",
         "vue-ckeditor2": "^2.0.9",
         "vue-ckeditor5": "^0.1.6",
+        "vue-cropperjs": "^4.0.0",
         "vue-quill-editor": "^3.0.6",
         "vue-resource": "^1.5.1",
         "vue-tinymce-editor": "^1.6.2",

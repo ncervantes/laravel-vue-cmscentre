@@ -16,7 +16,7 @@ export default {
     return {
       
      items:{        
-        title: '',        
+               
      },     
      
      errors: new Errors(),

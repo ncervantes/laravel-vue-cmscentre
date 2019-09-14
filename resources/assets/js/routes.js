@@ -499,6 +499,14 @@ let routes = [
 
         name:'addPageMenu'
    },
+
+   {
+        path:'/page-crop',
+
+        component: require('./views/crop/CropImage.vue'),
+
+        name:'addCropImage'
+   },
    
 ]
 
